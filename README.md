@@ -8,14 +8,14 @@
 [![Hex.pm Version](https://img.shields.io/hexpm/v/observer_cli.svg)](https://hex.pm/packages/observer_cli)
 [![Hex.pm Downloads](https://img.shields.io/hexpm/dt/observer_cli.svg)](https://hex.pm/packages/observer_cli)
 
-Visualize Erlang/Elixir Nodes On The Command Line base on [recon](https://github.com/ferd/recon).
+Visualize Erlang/Elixir Nodes on the Command Line, based on [recon](https://github.com/ferd/recon).
 [Document in detail](https://hexdocs.pm/observer_cli/).
 
 ## Goal
 
-- Provide a high-performance tool usable both in development and production settings.
-- Focus on important and detailed information about real-time running system.
-- Keep minimal consumption.
+- Provide a high-performance tool, usable in both development and production settings.
+- Focus on important and detailed information about a real-time, running system.
+- Keep resource consumption minimal.
 
 ---
 
@@ -43,7 +43,7 @@ dep_observer_cli = hex 1.7.4
 
 ### How-To
 
-#### Try in local shell.
+#### Try in a local shell.
 
 ```erlang
 %% rebar3 project
@@ -54,7 +54,7 @@ iex -S mix
 iex(1)> :observer_cli.start
 ```
 
-#### Monitor remote node
+#### Monitor a remote node
 
 ```erlang
 %% rebar3 project
@@ -76,14 +76,14 @@ mix release
 _build/dev/rel/example/bin/example rpc ":observer_cli.start"
 ```
 
-:exclamation: **ensure observer_cli application been loaded on current node.**
+:exclamation: **ensure observer_cli application has been loaded on current node.**
 
 #### Escriptize
 
 1. cd path/to/observer_cli/
-2. `rebar3 escriptize` to generate an escript executable containing the project's and its dependencies' BEAM files.
-   Place script(`_build/default/bin/observer_cli`) anywhere in your path and use `observer_cli` command.
-3. `observer_cli TARGETNODE [TARGETCOOKIE REFRESHMS]` to monitor remote node.
+2. `rebar3 escriptize` to generate an escript executable containing the BEAM files for the project and its dependencies.
+   Place script(`_build/default/bin/observer_cli`) anywhere in your path, then use the `observer_cli` command.
+3. Use `observer_cli TARGETNODE [TARGETCOOKIE REFRESHMS]` to monitor a remote node.
 
 ---
 
@@ -91,12 +91,13 @@ _build/dev/rel/example/bin/example rpc ":observer_cli.start"
 
 <img src="https://user-images.githubusercontent.com/3116225/39091211-55554414-4622-11e8-8b28-bd3b5c7e17a6.jpg" width="100%" alt="Home"> </img>
 
-### How to write your own plugin?
+### How to write your own plugin
 
-If you need to customize some of your internal metrics and integrate it into observer_ci,
-you only need to write a `observer_cli_plugin` behaviour in a few simple steps to get a nice presentation.
+By writing an `observer_cli_plugin` behaviour,
+you can customize some of your internal metrics and integrate them into `observer_cli`.
+This is simple to do and will provide a nice presentation.
 
-1. Configure observer_cli，tell observer_cli how to find your plugin.
+1. Configure `observer_cli`; tell it how to find your plugin.
 
 ```erlang
 %% module       - Specific module implements plugin behavior. It's mandatory.
@@ -116,15 +117,15 @@ you only need to write a `observer_cli_plugin` behaviour in a few simple steps t
 ```
 
 The main view is `HOME` by default(`observer_cli:start()`).
-If you want to plugin view as main view, DO:`your_cli:start().`
+If you want your plugin view to be the main view, DO:`your_cli:start().`
 
 ```erlang
 % your_cli.erl
 start() -> observer_cli:start_plugin().
 ```
 
-2. Write observer_cli_plugin behaviour.
-   observer_cli_plugin has 3 callbacks.
+2. Write the `observer_cli_plugin` behaviour.
+  The `observer_cli_plugin` has three callbacks.
 
 2.1 attributes.
 
@@ -134,7 +135,7 @@ start() -> observer_cli:start_plugin().
               width => pos_integer(), color => binary()}.
 ```
 
-for example:
+For example:
 
 ```erlang
 attributes(PrevState) ->
@@ -180,7 +181,7 @@ attributes(PrevState) ->
     SheetHeader :: #{title => string(), width => pos_integer(), shortcut => string()}.
 ```
 
-for example:
+For example:
 
 ```erlang
 sheet_header() ->
@@ -205,7 +206,7 @@ sheet_header() ->
 
 ```
 
-for example:
+For example:
 
 ```erlang
 sheet_body(PrevState) ->
@@ -250,7 +251,8 @@ Support `{byte, 1024*10}` to ` 10.0000 KB`; `{percent, 0.12}` to `12.00%`.
 
 Support F/B to page up/down.
 
-[A more specific plugin](https://github.com/zhongwencool/os_stats) can collect linux system information such as kernel vsn, loadavg, disk, memory usage, cpu utilization, IO statistics.
+[A more specific plugin](https://github.com/zhongwencool/os_stats) can collect Linux system information,
+such as kernel vsn, loadavg, disk, memory usage, cpu utilization, and IO statistics.
 
 ---
 
